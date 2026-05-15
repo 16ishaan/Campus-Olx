@@ -7,17 +7,27 @@ declare global {
   var __campusOlxMysqlPool: Pool | undefined;
 }
 
+const getMysqlConnectionUrl = (): string | undefined => {
+  return process.env.MYSQL_URL ?? process.env.DATABASE_URL;
+};
+
+export const getMysqlConfigErrorMessage = (): string => {
+  return "MySQL is not configured. Set MYSQL_URL or DATABASE_URL, or set MYSQL_HOST, MYSQL_USER, and MYSQL_DATABASE in Vercel or your local env file.";
+};
+
 const hasIndividualMysqlConfig = (): boolean => {
   return Boolean(process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_DATABASE);
 };
 
 export const isMysqlConfigured = (): boolean => {
-  return Boolean(process.env.MYSQL_URL || hasIndividualMysqlConfig());
+  return Boolean(getMysqlConnectionUrl() || hasIndividualMysqlConfig());
 };
 
 const buildPoolOptions = (): PoolOptions => {
-  if (process.env.MYSQL_URL) {
-    const connectionUrl = new URL(process.env.MYSQL_URL);
+  const connectionUrlValue = getMysqlConnectionUrl();
+
+  if (connectionUrlValue) {
+    const connectionUrl = new URL(connectionUrlValue);
     const databaseName = connectionUrl.pathname.replace(/^\//, "");
 
     if (!databaseName) {
@@ -35,7 +45,7 @@ const buildPoolOptions = (): PoolOptions => {
   }
 
   if (!hasIndividualMysqlConfig()) {
-    throw new Error("Missing MySQL configuration. Set MYSQL_URL or MYSQL_HOST, MYSQL_USER, and MYSQL_DATABASE.");
+    throw new Error(getMysqlConfigErrorMessage());
   }
 
   return {

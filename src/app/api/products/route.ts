@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { Product } from "@/data/mockData";
-import { getMysqlPool, isMysqlConfigured } from "@/lib/mysql";
+import { getMysqlConfigErrorMessage, getMysqlPool, isMysqlConfigured } from "@/lib/mysql";
 import type { PoolConnection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -146,7 +146,7 @@ export async function GET() {
   if (!isMysqlConfigured()) {
     return NextResponse.json(
       {
-        error: "MySQL is not configured. Set MYSQL_URL or MYSQL_HOST, MYSQL_USER, and MYSQL_DATABASE.",
+        error: getMysqlConfigErrorMessage(),
       },
       { status: 500 },
     );

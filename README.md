@@ -11,20 +11,23 @@ npm run dev
 
 ## MySQL Setup
 
-Add a `.env.local` file with either a single connection string or individual fields:
+Copy `.env.example` to `.env.local` and fill in your local MySQL credentials. Keep `.env.local` out of Git. If you deploy to Vercel, add the same values in Project Settings -> Environment Variables.
 
 ```bash
-MYSQL_URL=mysql://user:password@localhost:3306/campus_olx
+MYSQL_URL=mysql://your-user:your-password@your-host:3306/your_database
+
+# Vercel can also use:
+DATABASE_URL=mysql://your-user:your-password@your-host:3306/your_database
 
 # Or:
-MYSQL_HOST=localhost
+MYSQL_HOST=your-host
 MYSQL_PORT=3306
-MYSQL_USER=root
+MYSQL_USER=your-user
 MYSQL_PASSWORD=your-password
-MYSQL_DATABASE=campus_olx
+MYSQL_DATABASE=your_database
 ```
 
-This app is now wired to these existing tables in your `campus_olx` database:
+This app is wired to the existing tables in your MySQL database:
 
 - `items`
 - `item_images`

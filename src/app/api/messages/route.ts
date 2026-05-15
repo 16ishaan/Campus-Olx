@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMysqlPool, isMysqlConfigured } from "@/lib/mysql";
+import { getMysqlConfigErrorMessage, getMysqlPool, isMysqlConfigured } from "@/lib/mysql";
 import type { PoolConnection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 type ItemOwnerRow = RowDataPacket & Readonly<{
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   if (!isMysqlConfigured()) {
     return NextResponse.json(
       {
-        error: "MySQL is not configured. Set MYSQL_URL or MYSQL_HOST, MYSQL_USER, and MYSQL_DATABASE.",
+        error: getMysqlConfigErrorMessage(),
       },
       { status: 500 },
     );
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
   if (!isMysqlConfigured()) {
     return NextResponse.json(
       {
-        error: "MySQL is not configured. Set MYSQL_URL or MYSQL_HOST, MYSQL_USER, and MYSQL_DATABASE.",
+        error: getMysqlConfigErrorMessage(),
       },
       { status: 500 },
     );
