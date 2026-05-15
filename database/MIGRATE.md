@@ -10,6 +10,16 @@ This app cannot use `DESKTOP-TCQ89E1` from Vercel because that host is only reac
 4. Set the new connection string in Vercel as `DATABASE_URL` or `MYSQL_URL`.
 5. Redeploy the app.
 
+If you want a scripted copy instead of a manual export/import, use:
+
+```bash
+SOURCE_MYSQL_URL=mysql://user:password@localhost:3306/campus_olx
+TARGET_MYSQL_URL=mysql://user:password@public-host:3306/campus_olx
+npm run migrate:mysql
+```
+
+The script copies the app tables in dependency order and rebuilds `transactionsummary`.
+
 ## Environment variables
 
 Use one of these in Vercel:
