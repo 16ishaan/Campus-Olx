@@ -13,6 +13,8 @@ npm run dev
 
 Copy `.env.example` to `.env.local` and fill in your local MySQL credentials. Keep `.env.local` out of Git. If you deploy to Vercel, add the same values in Project Settings -> Environment Variables.
 
+For moving the database off your local machine and onto a public MySQL host, see [database/MIGRATE.md](database/MIGRATE.md).
+
 ```bash
 MYSQL_URL=mysql://your-user:your-password@your-host:3306/your_database
 
